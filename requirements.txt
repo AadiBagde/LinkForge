@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+python-dotenv
+redis
+passlib[bcrypt]
+qrcode
+pillow
+pydantic-settings
+requests
