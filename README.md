@@ -1,205 +1,327 @@
-# LinkForge - URL Shortener & Analytics Platform
+# LinkForge – URL Management & Analytics Platform
 
 <div align="center">
 
-![LinkForge](https://img.shields.io/badge/LinkForge-Production%20Ready-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-009485)
-![License](https://img.shields.io/badge/License-MIT-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![Redis](https://img.shields.io/badge/Redis-Cache-red)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
 
-A production-grade URL shortening and analytics platform built with FastAPI, PostgreSQL, and Redis.
+A cloud-native backend platform for secure URL management, intelligent redirection, and real-time analytics built using FastAPI, PostgreSQL, Redis, and Docker.
 
-[Features](#features) • [Quick Start](#quick-start) • [API Docs](#api-documentation) • [Deployment](#deployment) • [Contributing](#contributing)
+[Features](#features) • [Architecture](#architecture) • [Quick Start](#quick-start) • [Configuration](#configuration) • [Docker](#docker) • [Testing](#testing)
 
 </div>
 
 ---
 
-## Features
+# Features
 
-### Core URL Shortening
-- ✅ Generate compact short codes (6+ characters)
-- ✅ Custom alias support with validation
-- ✅ URL expiration/TTL management
-- ✅ QR code generation for easy sharing
-- ✅ Bulk URL creation (up to 100 at once)
+## URL Management
 
-### Analytics & Tracking
-- ✅ Real-time click counting
-- ✅ Geographic location tracking (country/city)
-- ✅ Device detection (Mobile, Tablet, Desktop, Bot)
-- ✅ Browser & OS identification
-- ✅ Referrer tracking
-- ✅ Daily click breakdown
-- ✅ Top performers ranking
+- Generate unique short URLs
+- Support custom aliases with validation
+- URL expiration (TTL)
+- QR code generation
+- Bulk URL creation
 
-### User Management
-- ✅ User registration & authentication (JWT)
-- ✅ Password hashing with bcrypt
-- ✅ User-owned URL management
-- ✅ Multi-user support with isolation
-- ✅ Profile management
+## Intelligent Redirection
 
-### Advanced Features
-- ✅ URL search and filtering
-- ✅ Update and delete operations
-- ✅ User statistics dashboard
-- ✅ Rate limiting (10 requests/minute per IP)
-- ✅ Redis caching for performance
-- ✅ Structured JSON logging
+- Cache-first URL resolution using Redis
+- Automatic database fallback
+- Configurable cache expiration
+- High-performance redirects
 
-### Production Ready
-- ✅ Comprehensive error handling
-- ✅ Input validation & XSS prevention
-- ✅ CORS configuration
-- ✅ Database migrations (Alembic)
-- ✅ 80%+ test coverage
-- ✅ CI/CD pipeline (GitHub Actions)
-- ✅ Docker containerization
-- ✅ PostgreSQL & MySQL support
+## Analytics
+
+- Real-time click tracking
+- Geographic location lookup
+- Browser and operating system detection
+- Device identification
+- Referrer tracking
+- Daily click statistics
+- Most visited URLs
+
+## Authentication
+
+- JWT-based authentication
+- Secure password hashing with bcrypt
+- User-owned URL management
+- Multi-user support
+
+## Security
+
+- Request validation
+- Input sanitization
+- Configurable rate limiting
+- Secure API responses
+- Structured error handling
+
+## Engineering Features
+
+- Redis caching
+- Alembic database migrations
+- Structured logging
+- Docker containerization
+- Environment-based configuration
+- Modular FastAPI architecture
+- RESTful API design
 
 ---
 
-## 🗂️ Architecture
+# Architecture
 
 ```mermaid
 flowchart LR
-    Client -->|HTTP| API[FastAPI]
-    API -->|SQL| DB[(MySQL)]
-    API -->|Cache| Redis[(Redis)]
-    API -->|Geo| IPService[External IP‑API]
-    API -->|Docker| Docker[Docker Compose]
+
+Client --> API[FastAPI]
+
+API --> PostgreSQL[(PostgreSQL)]
+
+API --> Redis[(Redis)]
+
+API --> Geo[IP Geolocation Service]
 ```
 
-- **FastAPI** – main web framework
-- **SQLAlchemy + MySQL** – persistence layer for URLs and click events
-- **Redis** – short‑code cache (TTL‑based) and distributed rate‑limiter
-- **External IP‑API** – resolves IP → country/city for geo analytics
-- **Docker** – containerised development & deployment
+### Technology Stack
+
+- **FastAPI** – REST API framework
+- **SQLAlchemy + PostgreSQL** – Persistent storage
+- **Redis** – URL caching and rate limiting
+- **IP Geolocation Service** – Country and city resolution
+- **Docker** – Containerized deployment
 
 ---
 
-## 🚀 Quick Start
+# Project Structure
 
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/<YOUR_USERNAME>/LinkForge.git
-   cd LinkForge
-   ```
+```
+app/
+├── api/
+├── core/
+├── db/
+├── schemas/
+├── services/
+└── main.py
 
-2. **Create a virtual environment & install dependencies**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-
-3. **Create a `.env` file** (copy from the example)
-   ```bash
-   cp .env.example .env
-   # edit .env if you need custom DB credentials, Redis host, etc.
-   ```
-
-4. **Run the application**
-   ```bash
-   uvicorn app.main:app --reload
-   ```
-   API documentation is available at `http://localhost:8000/docs`.
-
-5. **Health check**
-   ```bash
-   curl http://localhost:8000/health
-   # => {"status":"ok"}
-   ```
+alembic/
+tests/
+docker/
+```
 
 ---
 
-## 📦 Features
+# Quick Start
+
+## Clone the repository
+
+```bash
+git clone https://github.com/AadiBagde/LinkForge.git
+
+cd LinkForge
+```
+
+## Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/macOS
+
+```bash
+source venv/bin/activate
+```
+
+## Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Update the values inside `.env` according to your local setup.
+
+## Run the application
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Swagger UI
+
+```
+http://localhost:8000/docs
+```
+
+ReDoc
+
+```
+http://localhost:8000/redoc
+```
+
+---
+
+# Core Capabilities
 
 | Feature | Description |
-|---------|-------------|
-| **URL Shortening** | `POST /shorten` – custom short codes or auto‑generated Base62 IDs |
-| **Redirect** | `GET /{short_code}` – 307 redirect with optional cache hit |
-| **QR Code** | `GET /qr/{short_code}` – PNG QR image for the short URL |
-| **Analytics** | Click tracking with timestamps, user‑agent, referrer, country & city |
-| **Top URLs** | `GET /analytics/top` – returns most‑clicked short codes |
-| **Rate Limiting** | Redis‑backed per‑IP limit (configurable via env) |
-| **Caching** | Redis `SETEX` with configurable TTL (default 1 hour) |
-| **Geo Enrichment** | Async IP → location lookup; failures are gracefully ignored |
-| **Docker** | `docker compose up -d` builds and runs the full stack |
-| **Health Endpoint** | `/health` – simple JSON status check |
-| **Logging** | Centralised Python `logging` respecting `LOG_LEVEL` env var |
+|----------|-------------|
+| URL Shortening | Generate short URLs with custom aliases |
+| Intelligent Redirection | Redis cache with PostgreSQL fallback |
+| Analytics | Click tracking, location, browser, device, referrer |
+| QR Codes | Generate downloadable QR codes |
+| Authentication | JWT-based login and user management |
+| Rate Limiting | Redis-backed per-IP rate limiting |
+| Caching | Configurable Redis TTL |
+| Logging | Structured application logging |
+| Docker | Containerized deployment |
 
 ---
 
-## 🛠️ Configuration (`.env`)
+# Configuration
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DATABASE_URL` | MySQL connection string (required) | – |
-| `REDIS_HOST` | Redis host | `localhost` |
-| `REDIS_PORT` | Redis port | `6379` |
-| `BASE_URL` | Base URL used when constructing short URLs | `http://localhost:8000` |
-| `MAX_REQUESTS_PER_MINUTE` | Rate‑limit quota per IP | `10` |
-| `RATE_LIMIT_WINDOW` | Rate‑limit window in seconds | `60` |
-| `CACHE_EXPIRY` | Redis cache TTL in seconds | `3600` |
-| `LOG_LEVEL` | Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) | `INFO` |
+| Variable | Description |
+|----------|-------------|
+| DATABASE_URL | PostgreSQL connection string |
+| REDIS_HOST | Redis host |
+| REDIS_PORT | Redis port |
+| BASE_URL | Base application URL |
+| CACHE_EXPIRY | Redis cache TTL |
+| MAX_REQUESTS_PER_MINUTE | Rate limit quota |
+| RATE_LIMIT_WINDOW | Rate limit duration |
+| LOG_LEVEL | Application logging level |
 
-Copy `.env.example` to `.env` and adjust values as needed.
-
----
-
-## 🐳 Docker
-
-The repository includes a `docker-compose.yml` that spins up three containers:
-
-1. **app** – the FastAPI service (built from the Dockerfile)
-2. **db** – MySQL
-3. **redis** – Redis
+Copy
 
 ```bash
-docker compose up -d   # start everything
-docker compose logs -f  # view logs
+.env.example
 ```
 
-The **health endpoint** can be used to verify the container is up:
+to
+
 ```bash
-curl http://localhost:8000/health
+.env
 ```
+
+and update the values.
 
 ---
 
-## 📊 Testing (Tier 3)
+# Docker
 
-A minimal pytest suite is recommended. Run:
+Start the complete application stack
+
 ```bash
-pytest -q
+docker compose up -d
 ```
-Add tests for:
-- URL creation (custom & auto‑generated)
-- Cache hit/miss behaviour
-- Rate‑limit enforcement
-- Geo service error handling
-- Health endpoint
 
----
+View logs
 
-## 📜 License
-
-This project is released under the **MIT License** – see the `LICENSE` file for details.
-
----
-
-## 🙋‍♀️ How to List on Your Résumé
-
+```bash
+docker compose logs -f
 ```
-LinkForge – Enterprise Link Management & Analytics Platform
- • Built with FastAPI, SQLAlchemy, MySQL, Redis, Docker
- • Implemented deterministic Base62 short‑code generation, TTL caching, distributed rate‑limiting, QR code generation, and geo‑enriched click analytics
- • Production‑ready configuration (env‑driven, health check, central logging)
+
+Stop containers
+
+```bash
+docker compose down
 ```
 
 ---
 
-### 🎉 Enjoy!
-Feel free to open issues or submit pull requests – contributions are welcome.
+# Testing
+
+Run the test suite
+
+```bash
+pytest
+```
+
+Current tests cover:
+
+- Authentication
+- URL creation
+- URL validation
+- Request validation
+
+---
+
+# API Documentation
+
+Once the application is running:
+
+Swagger UI
+
+```
+http://localhost:8000/docs
+```
+
+ReDoc
+
+```
+http://localhost:8000/redoc
+```
+
+---
+
+# Tech Stack
+
+### Backend
+
+- Python
+- FastAPI
+- SQLAlchemy
+
+### Database
+
+- PostgreSQL
+- Redis
+
+### Authentication
+
+- JWT
+- bcrypt
+
+### DevOps
+
+- Docker
+- Alembic
+
+### Utilities
+
+- QR Code Generation
+- Structured Logging
+- IP Geolocation
+
+---
+
+# Future Improvements
+
+- Custom domains
+- Click heatmaps
+- Scheduled link activation
+- Webhook support
+- Role-based administration
+- Dashboard visualizations
+
+---
+
+# License
+
+This project is licensed under the MIT License.
+
+---
+
+Built with ❤️ using FastAPI, PostgreSQL, Redis, and Docker.
