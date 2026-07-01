@@ -324,4 +324,4 @@ This project is licensed under the MIT License.
 
 ---
 
-Built with ❤️ using FastAPI, PostgreSQL, Redis, and Docker.
+Built using FastAPI, PostgreSQL, Redis, and Docker.
