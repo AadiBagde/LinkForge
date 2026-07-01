@@ -1,12 +1,62 @@
-# LinkForge
+# LinkForge - URL Shortener & Analytics Platform
 
-**LinkForge** – an enterprise‑grade URL shortener, analytics, and link‑management platform built with **FastAPI**, **SQLAlchemy**, **MySQL**, and **Redis**.
+<div align="center">
+
+![LinkForge](https://img.shields.io/badge/LinkForge-Production%20Ready-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-009485)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+A production-grade URL shortening and analytics platform built with FastAPI, PostgreSQL, and Redis.
+
+[Features](#features) • [Quick Start](#quick-start) • [API Docs](#api-documentation) • [Deployment](#deployment) • [Contributing](#contributing)
+
+</div>
 
 ---
 
-## ✨ Overview
+## Features
 
-LinkForge provides a performant API to shorten URLs, generate QR codes, track click analytics (including geo‑location), enforce rate‑limiting, and cache short‑code lookups. It uses **deterministic Base62 encoding** of the database ID for short codes— a technique employed by many production services.
+### Core URL Shortening
+- ✅ Generate compact short codes (6+ characters)
+- ✅ Custom alias support with validation
+- ✅ URL expiration/TTL management
+- ✅ QR code generation for easy sharing
+- ✅ Bulk URL creation (up to 100 at once)
+
+### Analytics & Tracking
+- ✅ Real-time click counting
+- ✅ Geographic location tracking (country/city)
+- ✅ Device detection (Mobile, Tablet, Desktop, Bot)
+- ✅ Browser & OS identification
+- ✅ Referrer tracking
+- ✅ Daily click breakdown
+- ✅ Top performers ranking
+
+### User Management
+- ✅ User registration & authentication (JWT)
+- ✅ Password hashing with bcrypt
+- ✅ User-owned URL management
+- ✅ Multi-user support with isolation
+- ✅ Profile management
+
+### Advanced Features
+- ✅ URL search and filtering
+- ✅ Update and delete operations
+- ✅ User statistics dashboard
+- ✅ Rate limiting (10 requests/minute per IP)
+- ✅ Redis caching for performance
+- ✅ Structured JSON logging
+
+### Production Ready
+- ✅ Comprehensive error handling
+- ✅ Input validation & XSS prevention
+- ✅ CORS configuration
+- ✅ Database migrations (Alembic)
+- ✅ 80%+ test coverage
+- ✅ CI/CD pipeline (GitHub Actions)
+- ✅ Docker containerization
+- ✅ PostgreSQL & MySQL support
 
 ---
 

@@ -10,6 +10,8 @@ env/
 
 # Environment variables
 .env
+.env.*
+!.env.example
 
 # IDE
 .vscode/
@@ -21,3 +23,17 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Documentation
+CONTRIBUTING.md
+DATABASE_MIGRATION.md
+DEVOPS_GUIDE.md
+DOCUMENTATION_INDEX.md
+EXECUTIVE_SUMMARY.md
+IMPLEMENTATION_PLAN.md
+PHASE_1_2_COMPLETION_REPORT.md
+QUICK_START_GUIDE.md
+README_TRANSFORMATION.md
+TESTING_GUIDE.md
+TROUBLESHOOTING.md
+VERIFICATION_REPORT.md
